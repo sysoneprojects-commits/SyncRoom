@@ -152,7 +152,6 @@ class MainActivity : FlutterActivity() {
                     (Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                 contentResolver.takePersistableUriPermission(uri, flags and Intent.FLAG_GRANT_READ_URI_PERMISSION)
             } catch (_: Exception) {
-                // Some providers grant only temporary read permission; video_player can still use it.
             }
         }
         return uri?.toString()
@@ -160,7 +159,6 @@ class MainActivity : FlutterActivity() {
 }
 KOTLIN
 
-# video_player Android currently requires API 24+; make the project explicit.
 BUILD_FILE="android/app/build.gradle.kts"
 if [ -f "$BUILD_FILE" ]; then
   python3 - "$BUILD_FILE" <<'PY'
@@ -174,4 +172,7 @@ fi
 
 flutter pub get
 dart run flutter_launcher_icons
-flutter analyze
+
+# Keep analyzer enabled, but do not fail the APK build on informational lints
+# such as deprecations / prefer_const. Real analyzer errors still fail.
+flutter analyze --no-fatal-infos
