@@ -1,0 +1,19 @@
+name = "syncroom-api"
+main = "src/index.ts"
+compatibility_date = "2026-09-01"
+
+[[durable_objects.bindings]]
+name = "ROOM_HUB"
+class_name = "RoomHub"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RoomHub"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "syncroom-db"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[vars]
+APP_ENV = "production"
